@@ -5,6 +5,7 @@ use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 // Rota inicial
 Route::get('/', function () {
@@ -20,9 +21,15 @@ Route::middleware(['auth'])->group(function () {
     // Perfil do usuário
     Route::get('/perfil', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/perfil', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/sair', function () {
+        Auth::logout();
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
+        return redirect('/');
+    })->name('logout');
 
     // Rotas para Solicitantes
-    Route::middleware(['role:requester'])->group(function () {
+    Route::middleware(['requester'])->group(function () {
         // Pedidos
         Route::get('/pedidos', [OrderController::class, 'index'])->name('orders.index');
         Route::get('/pedidos/criar', [OrderController::class, 'create'])->name('orders.create');
@@ -33,7 +40,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // Rotas para Aprovadores
-    Route::middleware(['role:approver'])->group(function () {
+    Route::middleware(['approver'])->group(function () {
         Route::get('/pedidos/pendentes', [OrderController::class, 'pending'])->name('orders.pending');
         Route::post('/pedidos/{order}/aprovar', [OrderController::class, 'approve'])->name('orders.approve');
         Route::post('/pedidos/{order}/rejeitar', [OrderController::class, 'reject'])->name('orders.reject');
@@ -42,7 +49,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // Rotas para Administradores
-    Route::middleware(['role:admin'])->group(function () {
+    Route::middleware(['admin'])->group(function () {
         // Materiais
         Route::get('/materiais/criar', [MaterialController::class, 'create'])->name('materials.create');
         Route::post('/materiais', [MaterialController::class, 'store'])->name('materials.store');

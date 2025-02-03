@@ -11,6 +11,7 @@ class OrderSeeder extends Seeder
 {
     public function run(): void
     {
+        $statusOptions = ['new', 'in_review', 'changes_requested'];
         $requesters = Requester::all();
         $materials = Material::all();
 
@@ -21,7 +22,7 @@ class OrderSeeder extends Seeder
                     'requester_id' => $requester->id,
                     'group_id' => $requester->group_id,
                     'total' => 0,
-                    'status' => ['pending', 'approved', 'rejected'][rand(0, 2)],
+                    'status' => $statusOptions[rand(0, 2)],
                     'created_date' => now(),
                     'updated_date' => now()
                 ]);

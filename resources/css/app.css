@@ -99,16 +99,86 @@
         @apply min-w-full divide-y divide-neutral-200;
     }
 
+    .table thead {
+        @apply bg-neutral-50;
+    }
+
     .table th {
-        @apply px-6 py-3 bg-neutral-50 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider;
+        @apply px-6 py-4 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider sticky top-0 bg-neutral-50 border-b border-neutral-200;
     }
 
     .table td {
-        @apply px-6 py-4 whitespace-nowrap text-sm text-neutral-900;
+        @apply px-6 py-4 text-sm text-neutral-700 border-b border-neutral-100;
     }
 
-    .table tr {
-        @apply hover:bg-neutral-50;
+    .table tbody tr:nth-child(even) {
+        @apply bg-neutral-50/50;
+    }
+
+    .table tbody tr:hover {
+        @apply bg-neutral-100/80 transition-colors duration-150;
+    }
+
+    .table-container {
+        @apply bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden;
+    }
+
+    .table-header {
+        @apply px-6 py-4 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider bg-neutral-50 border-b border-neutral-200;
+    }
+
+    .table-cell {
+        @apply px-6 py-4 text-sm text-neutral-700;
+    }
+
+    .table-row-link {
+        @apply cursor-pointer transition-colors duration-150;
+    }
+
+    .table-empty {
+        @apply px-6 py-8 text-center text-neutral-500 bg-neutral-50/50;
+    }
+
+    /* Status Badges */
+    .status-badge {
+        @apply inline-flex items-center gap-x-1.5 px-3 py-1.5 rounded-full text-xs font-medium ring-1 ring-inset transition-colors duration-150;
+    }
+
+    .status-badge-new {
+        @apply bg-blue-50 text-blue-700 ring-blue-600/20;
+    }
+
+    .status-badge-in_review {
+        @apply bg-yellow-50 text-yellow-700 ring-yellow-600/20;
+    }
+
+    .status-badge-changes_requested {
+        @apply bg-purple-50 text-purple-700 ring-purple-600/20;
+    }
+
+    .status-badge-approved {
+        @apply bg-green-50 text-green-700 ring-green-600/20;
+    }
+
+    .status-badge-rejected {
+        @apply bg-red-50 text-red-700 ring-red-600/20;
+    }
+
+    /* Action Buttons */
+    .action-button {
+        @apply inline-flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-all duration-150;
+    }
+
+    .action-button-neutral {
+        @apply action-button text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100;
+    }
+
+    .action-button-primary {
+        @apply action-button text-primary-600 hover:text-primary-900 hover:bg-primary-50;
+    }
+
+    .action-button-danger {
+        @apply action-button text-red-600 hover:text-red-900 hover:bg-red-50;
     }
 
     /* Badges */
