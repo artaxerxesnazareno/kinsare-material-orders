@@ -35,7 +35,7 @@ class OrderController extends Controller
                 ->with('error', 'Apenas solicitantes podem criar pedidos.');
         }
 
-        return view('orders.create');
+        return view('orders.request.create');
     }
 
     /**
@@ -65,7 +65,7 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        return view('orders.show', compact('order'));
+        return view('orders.request.show', compact('order'));
     }
 
     /**
