@@ -208,7 +208,7 @@
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <div class="flex justify-end items-center gap-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <div class="flex justify-end items-center gap-x-2">
                                             <a href="{{ route('orders.show', $order) }}"
                                                class="rounded-lg p-2 text-neutral-400 hover:text-neutral-900 hover:bg-neutral-100 transition-all"
                                                title="Ver Detalhes">
@@ -217,14 +217,15 @@
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
                                                 </svg>
                                             </a>
-                                            @if($order->status === 'new')
-                                                <button type="button"
-                                                        class="rounded-lg p-2 text-primary-600 hover:text-primary-900 hover:bg-primary-50 transition-all"
-                                                        title="Enviar para Revisão">
+
+                                            @if(in_array($order->status, ['new', 'changes_requested']))
+                                                <a href="{{ route('orders.edit', $order) }}"
+                                                   class="rounded-lg p-2 text-neutral-400 hover:text-primary-600 hover:bg-primary-50 transition-all"
+                                                   title="Editar Pedido">
                                                     <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                                                     </svg>
-                                                </button>
+                                                </a>
                                             @endif
                                         </div>
                                     </td>

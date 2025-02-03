@@ -135,4 +135,17 @@ class OrderController extends Controller
                 ->with('error', $e->getMessage());
         }
     }
+
+    /**
+     * Mostrar formulário de edição
+     */
+    public function edit(Order $order)
+    {
+        if (!in_array($order->status, ['new', 'changes_requested'])) {
+            return redirect()->route('orders.show', $order)
+                ->with('error', 'Este pedido não pode ser editado.');
+        }
+
+        return view('orders.request.edit', compact('order'));
+    }
 }

@@ -35,6 +35,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/pedidos/criar', [OrderController::class, 'create'])->name('orders.create');
         Route::post('/pedidos', [OrderController::class, 'store'])->name('orders.store');
         Route::get('/pedidos/{order}', [OrderController::class, 'show'])->name('orders.show');
+        Route::get('/pedidos/{order}/editar', [OrderController::class, 'edit'])->name('orders.edit');
         Route::post('/pedidos/{order}/enviar-revisao', [OrderController::class, 'sendToReview'])
             ->name('orders.send-to-review');
     });

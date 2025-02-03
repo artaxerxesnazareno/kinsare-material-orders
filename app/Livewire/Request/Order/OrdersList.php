@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Request;
+namespace App\Livewire\Request\Order;
 
 use App\Models\Order;
 use Livewire\Component;
@@ -38,6 +38,38 @@ class OrdersList extends Component
         $this->resetPage();
     }
 
+    public function sendToReview($orderId)
+    {
+        $order = Order::find($orderId);
+
+        if (!$order) {
+            session()->flash('error', 'Pedido não encontrado.');
+            return;
+        }
+
+        if ($order->status !== 'new') {
+            session()->flash('error', 'Apenas pedidos novos podem ser enviados para revisão.');
+            return;
+        }
+
+        try {
+            $order->update([
+                'status' => 'in_review',
+                'updated_date' => now()
+            ]);
+
+            session()->flash('success', 'Pedido enviado para revisão com sucesso!');
+        } catch (\Exception $e) {
+            session()->flash('error', 'Erro ao enviar pedido para revisão: ' . $e->getMessage());
+        }
+    }
+
+    public function resetFilters()
+    {
+        $this->reset(['search', 'status']);
+        $this->resetPage();
+    }
+
     public function render()
     {
         $query = Order::query()
@@ -57,21 +89,5 @@ class OrdersList extends Component
         return view('livewire.request.order.orders-list', [
             'orders' => $orders
         ]);
-    }
-
-    public function resetFilters()
-    {
-        $this->reset(['search', 'status']);
-        $this->resetPage();
-    }
-
-    public function sendToReview($orderId)
-    {
-        $order = Order::find($orderId);
-
-        if ($order && $order->status === 'new') {
-            $order->update(['status' => 'in_review']);
-            $this->dispatch('order-updated', orderId: $orderId);
-        }
     }
 }
