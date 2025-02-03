@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Request;
 
 use App\Models\Order;
 use Livewire\Component;
@@ -51,14 +51,10 @@ class OrdersList extends Component
                 $query->where('status', $this->status);
             });
 
-        // Debug temporário
-        \Log::info('Status selecionado: ' . $this->status);
-        \Log::info('SQL: ' . $query->toSql());
-
         $orders = $query->orderBy('created_at', 'desc')
             ->paginate($this->perPage);
 
-        return view('livewire.orders-list', [
+        return view('livewire.request.orders-list', [
             'orders' => $orders
         ]);
     }
