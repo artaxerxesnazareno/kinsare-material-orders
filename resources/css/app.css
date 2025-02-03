@@ -217,3 +217,16 @@
         text-shadow: 0 4px 8px rgba(0,0,0,0.12);
     }
 }
+
+@keyframes progress {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.animate-progress {
+    animation: progress 1s ease-in-out infinite;
+}

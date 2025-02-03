@@ -22,12 +22,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        try {
-            $orders = $this->orderService->list(Auth::user());
-            return view('orders.index', compact('orders'));
-        } catch (Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
-        }
+        return view('orders.index');
     }
 
     /**
