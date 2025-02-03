@@ -53,7 +53,7 @@
                         <div>
                             <h3 class="text-sm font-medium text-neutral-900">{{ $order->group->name }}</h3>
                             <p class="mt-1 text-xs text-neutral-500">
-                                Saldo disponível: R$ {{ number_format($order->group->allowed_balance, 2, ',', '.') }}
+                                Saldo disponível: {{ number_format($order->group->allowed_balance, 2, ',', '.') }} AOA
                             </p>
                         </div>
                     </div>
@@ -77,7 +77,7 @@
                                     <option value="">Selecione um material</option>
                                     @foreach($materials as $mat)
                                         <option value="{{ $mat->id }}">
-                                            {{ $mat->name }} - R$ {{ number_format($mat->price, 2, ',', '.') }}
+                                            {{ $mat->name }} - {{ number_format($mat->price, 2, ',', '.') }} AOA
                                         </option>
                                     @endforeach
                                 </select>
@@ -132,7 +132,7 @@
                 <div class="flex items-center justify-between">
                     <span class="text-sm font-medium text-neutral-700">Total do Pedido</span>
                     <span class="text-lg font-semibold text-neutral-900">
-                        R$ {{ number_format($total, 2, ',', '.') }}
+                        {{ number_format($total, 2, ',', '.') }} AOA
                     </span>
                 </div>
             </div>

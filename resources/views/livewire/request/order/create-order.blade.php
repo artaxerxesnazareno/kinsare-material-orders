@@ -23,7 +23,7 @@
                                     <option value="">Selecione um material</option>
                                     @foreach($materials as $mat)
                                         <option value="{{ $mat->id }}">
-                                            {{ $mat->name }} - R$ {{ number_format($mat->price, 2, ',', '.') }}
+                                            {{ $mat->name }} - {{ number_format($mat->price, 2, ',', '.') }} AOA
                                         </option>
                                     @endforeach
                                 </select>
@@ -78,7 +78,7 @@
                 <div class="flex items-center justify-between">
                     <span class="text-sm font-medium text-neutral-700">Total do Pedido</span>
                     <span class="text-lg font-semibold text-neutral-900">
-                        R$ {{ number_format($total, 2, ',', '.') }}
+                         {{ number_format($total, 2, ',', '.') }} AOA
                     </span>
                 </div>
             </div>

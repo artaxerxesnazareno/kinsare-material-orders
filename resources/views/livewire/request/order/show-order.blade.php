@@ -53,7 +53,7 @@
                         <div>
                             <h3 class="text-sm font-medium text-neutral-900">{{ $order->group->name }}</h3>
                             <p class="mt-1 text-xs text-neutral-500">
-                                Saldo disponível: R$ {{ number_format($order->group->allowed_balance, 2, ',', '.') }}
+                                Saldo disponível: {{ number_format($order->group->allowed_balance, 2, ',', '.') }} AOA
                             </p>
                         </div>
                     </div>
@@ -86,10 +86,10 @@
                                         {{ $material->pivot->quantity }}
                                     </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-neutral-900 text-right">
-                                        R$ {{ number_format($material->price, 2, ',', '.') }}
+                                        {{ number_format($material->price, 2, ',', '.') }} AOA
                                     </td>
                                     <td class="whitespace-nowrap px-3 py-4 text-sm text-neutral-900 text-right">
-                                        R$ {{ number_format($material->pivot->subtotal, 2, ',', '.') }}
+                                        {{ number_format($material->pivot->subtotal, 2, ',', '.') }} AOA
                                     </td>
                                 </tr>
                             @endforeach
@@ -98,7 +98,7 @@
                             <tr class="bg-neutral-50">
                                 <th scope="row" colspan="3" class="pl-3 pr-3 py-3.5 text-right text-sm font-semibold text-neutral-900">Total</th>
                                 <td class="pl-3 pr-3 py-3.5 text-right text-sm font-semibold text-neutral-900">
-                                    R$ {{ number_format($order->total, 2, ',', '.') }}
+                                     {{ number_format($order->total, 2, ',', '.') }} AOA
                                 </td>
                             </tr>
                         </tfoot>

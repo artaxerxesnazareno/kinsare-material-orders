@@ -42,6 +42,14 @@ Route::middleware(['auth'])->group(function () {
 
     // Rotas para Aprovadores
     Route::middleware(['approver'])->group(function () {
+        Route::get('/aprovador', function () {
+            return view('approver.dashboard');
+        })->name('approver.dashboard');
+
+        Route::get('/aprovador/pedidos/{order}', function (App\Models\Order $order) {
+            return view('approver.show-order', compact('order'));
+        })->name('approver.orders.show');
+
         Route::get('/pedidos/pendentes', [OrderController::class, 'pending'])->name('orders.pending');
         Route::post('/pedidos/{order}/aprovar', [OrderController::class, 'approve'])->name('orders.approve');
         Route::post('/pedidos/{order}/rejeitar', [OrderController::class, 'reject'])->name('orders.reject');
