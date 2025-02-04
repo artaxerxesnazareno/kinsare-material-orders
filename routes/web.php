@@ -4,6 +4,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -65,8 +66,7 @@ Route::middleware(['auth'])->group(function () {
             return view('materials.index');
         })->name('materials.index');
         Route::get('/materiais/{material}', [MaterialController::class, 'show'])->name('materials.show');
-        Route::get('/material/criar', function () {
-//            dd('Criar Material');
+        Route::get('/materiais/criar', function () {
             return view('materials.create');
         })->name('materials.create');
         Route::post('/materia\is', [MaterialController::class, 'store'])->name('materials.store');
@@ -83,6 +83,14 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/grupos/{group}/editar', [GroupController::class, 'edit'])->name('groups.edit');
         Route::put('/grupos/{group}', [GroupController::class, 'update'])->name('groups.update');
         Route::delete('/grupos/{group}', [GroupController::class, 'destroy'])->name('groups.destroy');
+
+        // Usuários
+        Route::get('/users', [UserController::class, 'index'])->name('users.index');
+        Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+        Route::post('/users', [UserController::class, 'store'])->name('users.store');
+        Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+        Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
+        Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
     });
 
 
