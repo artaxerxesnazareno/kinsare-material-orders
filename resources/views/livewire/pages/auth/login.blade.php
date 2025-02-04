@@ -80,13 +80,6 @@ new #[Layout('layouts.guest')] class extends Component
                     <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Lembrar-me') }}</span>
                 </label>
 
-                @if (Route::has('password.request'))
-                    <a class="text-sm text-primary-600 hover:text-primary-500 dark:text-primary-400 hover:underline"
-                        href="{{ route('password.request') }}"
-                        wire:navigate>
-                        {{ __('Esqueceu a senha?') }}
-                    </a>
-                @endif
             </div>
 
             <div>
@@ -95,13 +88,7 @@ new #[Layout('layouts.guest')] class extends Component
                 </x-primary-button>
             </div>
 
-            <!-- Register Link -->
-            <p class="text-center text-sm text-gray-600 dark:text-gray-400">
-                {{ __('Não tem uma conta?') }}
-                <a href="{{ route('register') }}" class="text-primary-600 hover:text-primary-500 dark:text-primary-400 hover:underline" wire:navigate>
-                    {{ __('Cadastre-se') }}
-                </a>
-            </p>
+
         </form>
     </div>
 </div>

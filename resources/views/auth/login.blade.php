@@ -102,12 +102,6 @@
                             Lembrar-me
                         </label>
                     </div>
-
-                    @if (Route::has('password.request'))
-                        <a href="{{ route('password.request') }}" class="text-sm font-medium text-primary-600 hover:text-primary-500 transition-colors">
-                            Esqueceu sua senha?
-                        </a>
-                    @endif
                 </div>
 
                 <div>
@@ -133,14 +127,7 @@
                         </div>
                     </div>
 
-                    <div class="mt-6 text-center">
-                        <p class="text-sm text-neutral-600">
-                            Não tem uma conta?
-                            <a href="{{ route('register') }}" class="font-medium text-primary-600 hover:text-primary-500 transition-colors">
-                                Registre-se agora
-                            </a>
-                        </p>
-                    </div>
+
                 </div>
             @endif
         </div>
