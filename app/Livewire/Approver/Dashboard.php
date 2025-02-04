@@ -7,6 +7,7 @@ use App\Models\Group;
 use App\Services\OrderService;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Auth;
 
 class Dashboard extends Component
 {
@@ -19,6 +20,7 @@ class Dashboard extends Component
     public $group;
 
     protected $orderService;
+    protected $paginationTheme = 'tailwind';
 
     public function boot(OrderService $orderService)
     {
@@ -27,7 +29,7 @@ class Dashboard extends Component
 
     public function mount()
     {
-        $this->group = Group::where('approver_id', auth()->id())->first();
+        $this->group = Group::where('approver_id', Auth::id())->first();
     }
 
     protected $queryString = [
@@ -46,9 +48,14 @@ class Dashboard extends Component
         $this->resetPage();
     }
 
+    public function updatingPerPage()
+    {
+        $this->resetPage();
+    }
+
     public function resetFilters()
     {
-        $this->reset(['search', 'status']);
+        $this->reset(['search', 'status', 'perPage']);
         $this->resetPage();
     }
 
@@ -56,7 +63,7 @@ class Dashboard extends Component
     {
         try {
             $order = Order::findOrFail($orderId);
-            $this->orderService->approve($order, auth()->user());
+            $this->orderService->approve($order, Auth::user());
             session()->flash('success', 'Pedido aprovado com sucesso!');
         } catch (\Exception $e) {
             session()->flash('error', $e->getMessage());
@@ -67,7 +74,7 @@ class Dashboard extends Component
     {
         try {
             $order = Order::findOrFail($orderId);
-            $this->orderService->reject($order, auth()->user(), 'Pedido rejeitado pelo aprovador.');
+            $this->orderService->reject($order, Auth::user(), 'Pedido rejeitado pelo aprovador.');
             session()->flash('success', 'Pedido rejeitado com sucesso!');
         } catch (\Exception $e) {
             session()->flash('error', $e->getMessage());
@@ -78,7 +85,7 @@ class Dashboard extends Component
     {
         try {
             $order = Order::findOrFail($orderId);
-            $this->orderService->requestChanges($order, auth()->user(), 'Por favor, revise o pedido e faça as alterações necessárias.');
+            $this->orderService->requestChanges($order, Auth::user(), 'Por favor, revise o pedido e faça as alterações necessárias.');
             session()->flash('success', 'Solicitação de alterações enviada com sucesso!');
         } catch (\Exception $e) {
             session()->flash('error', $e->getMessage());
@@ -88,14 +95,14 @@ class Dashboard extends Component
     public function render()
     {
         $query = Order::query()
-            ->with(['requester', 'group'])
+            ->with(['requester.user', 'group'])
             ->whereHas('group', function ($query) {
-                $query->where('approver_id', auth()->id());
+                $query->where('id', $this->group->id);
             })
             ->when($this->search, function ($query) {
                 $query->where(function ($query) {
-                    $query->where('code', 'like', '%' . $this->search . '%')
-                        ->orWhereHas('requester', function ($query) {
+                    $query->where('id', 'like', '%' . $this->search . '%')
+                        ->orWhereHas('requester.user', function ($query) {
                             $query->where('name', 'like', '%' . $this->search . '%');
                         })
                         ->orWhereHas('group', function ($query) {

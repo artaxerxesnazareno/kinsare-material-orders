@@ -105,7 +105,7 @@
                                id="search"
                                wire:model.debounce.300ms="search"
                                class="block w-full pl-10 pr-3 py-2.5 border border-neutral-300 rounded-lg shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm"
-                               placeholder="Buscar por código, solicitante ou grupo...">
+                               placeholder="Buscar por ID, solicitante ou grupo...">
                     </div>
                 </div>
 
@@ -116,6 +116,7 @@
                         <select id="status"
                                 wire:model.live="status"
                                 class="block w-full rounded-lg border-neutral-300 shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm">
+                            <option value="">Todos</option>
                             <option value="in_review">Em Revisão</option>
                             <option value="approved">Aprovados</option>
                             <option value="rejected">Rejeitados</option>
@@ -123,7 +124,7 @@
                         </select>
                     </div>
 
-                    <select wire:model="perPage"
+                    <select wire:model.live="perPage"
                             class="block w-full rounded-lg border-neutral-300 shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm">
                         <option value="10">10 itens</option>
                         <option value="25">25 itens</option>
@@ -213,17 +214,20 @@
                                     <div class="flex-shrink-0 h-10 w-10 rounded-lg bg-primary-50 flex items-center justify-center">
                                         <span class="text-sm font-semibold text-primary-700">#{{ substr($order->code, -3) }}</span>
                                     </div>
-                                    <div class="text-sm font-medium text-neutral-900">{{ $order->code }}</div>
+                                    <div>
+                                        <div class="text-sm font-medium text-neutral-900">{{ $order->code }}</div>
+                                        <div class="text-xs text-neutral-500">  {{ $order->id }}</div>
+                                    </div>
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center gap-x-3">
                                     <div class="h-8 w-8 rounded-lg bg-neutral-100 flex items-center justify-center">
                                         <span class="text-xs font-medium text-neutral-700">
-                                            {{ strtoupper(substr($order->requester->name, 0, 2)) }}
+                                            {{ strtoupper(substr($order->requester->user->name, 0, 2)) }}
                                         </span>
                                     </div>
-                                    <span class="text-sm text-neutral-900">{{ $order->requester->name }}</span>
+                                    <span class="text-sm text-neutral-900">{{ $order->requester->user->name }}</span>
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
