@@ -31,6 +31,6 @@
     </x-slot>
 
     <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <livewire:request.orders-list/>
+        <livewire:request.order.orders-list/>
     </div>
 </x-app-layout>

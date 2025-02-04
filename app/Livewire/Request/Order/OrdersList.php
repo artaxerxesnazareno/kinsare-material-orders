@@ -3,6 +3,7 @@
 namespace App\Livewire\Request\Order;
 
 use App\Models\Order;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -73,6 +74,9 @@ class OrdersList extends Component
     public function render()
     {
         $query = Order::query()
+            ->whereHas('requester', function($query) {
+                $query->where('user_id', Auth::id());
+            })
             ->when($this->search, function ($query) {
                 $query->where(function ($query) {
                     $query->where('code', 'like', '%' . $this->search . '%')
