@@ -95,12 +95,7 @@
                          x-transition:leave-end="transform opacity-0 scale-95"
                          class="absolute right-0 z-50 mt-2 w-48 rounded-md shadow-lg origin-top-right">
                         <div class="rounded-md ring-1 ring-black ring-opacity-5 py-1 bg-white">
-                            <a href="{{ route('profile.edit') }}" class="flex items-center px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-100 transition-colors">
-                                <svg class="mr-3 h-5 w-5 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                                </svg>
-                                Perfil
-                            </a>
+
 
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
@@ -197,13 +192,6 @@
             </div>
 
             <div class="mt-3 space-y-1">
-                <a href="{{ route('profile.edit') }}" class="flex items-center pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-neutral-600 hover:text-neutral-800 hover:bg-neutral-50 hover:border-neutral-300 transition-colors">
-                    <svg class="mr-3 h-5 w-5 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                    </svg>
-                    Perfil
-                </a>
-
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="flex w-full items-center pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-neutral-600 hover:text-neutral-800 hover:bg-neutral-50 hover:border-neutral-300 transition-colors">
