@@ -18,6 +18,8 @@ class Dashboard extends Component
     public $perPage = 10;
     public $reason = '';
     public $group;
+    public $showInsufficientBalanceModal = false;
+    public $currentOrder = null;
 
     protected $orderService;
     protected $paginationTheme = 'tailwind';
@@ -63,12 +65,37 @@ class Dashboard extends Component
     {
         try {
             $order = Order::findOrFail($orderId);
+
+            // Verifica se há saldo suficiente
+            $usedBalance = $this->group->orders()->where('status', 'approved')->sum('total');
+            $availableBalance = $this->group->allowed_balance - $usedBalance;
+
+            if ($availableBalance < $order->total) {
+                $this->currentOrder = $order;
+                $this->showInsufficientBalanceModal = true;
+                return;
+            }
+
             $this->orderService->approve($order, Auth::user());
             $this->group = $this->group->fresh();
             session()->flash('success', 'Pedido aprovado com sucesso!');
             $this->dispatch('refresh');
         } catch (\Exception $e) {
             session()->flash('error', $e->getMessage());
+        }
+    }
+
+    public function closeInsufficientBalanceModal()
+    {
+        $this->showInsufficientBalanceModal = false;
+        $this->currentOrder = null;
+    }
+
+    public function requestChangesFromModal()
+    {
+        if ($this->currentOrder) {
+            $this->requestChanges($this->currentOrder->id);
+            $this->closeInsufficientBalanceModal();
         }
     }
 
