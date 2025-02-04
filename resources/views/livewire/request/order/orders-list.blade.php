@@ -190,11 +190,6 @@
                                             <span class="text-sm font-medium text-neutral-900">
                                                 {{ number_format($order->total, 2, ',', '.') }} AOA
                                             </span>
-                                            @if($order->total > 1000)
-                                                <span class="inline-flex items-center rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-medium text-amber-800 ring-1 ring-inset ring-amber-600/20">
-                                                    Alto valor
-                                                </span>
-                                            @endif
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">

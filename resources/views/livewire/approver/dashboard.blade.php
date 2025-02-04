@@ -1,4 +1,5 @@
 <div>
+    <div wire:poll.10s wire:init="$refresh">
     <!-- Indicador de Carregamento -->
     <div wire:loading class="fixed top-0 left-0 right-0 z-50">
         <div class="h-1 bg-primary-500 overflow-hidden">
@@ -29,9 +30,13 @@
             <div class="text-right">
                 <div class="text-sm text-neutral-500">Saldo Disponível</div>
                 <div class="text-2xl font-bold text-neutral-900">
-                    {{ number_format($group->allowed_balance, 2, ',', '.') }} AOA
+                    @php
+                        $usedBalance = $group->orders()->where('status', 'approved')->sum('total');
+                        $availableBalance = $group->allowed_balance - $usedBalance;
+                    @endphp
+                    {{ number_format($availableBalance, 2, ',', '.') }} AOA
                 </div>
-                @if($group->allowed_balance < 1000)
+                @if($availableBalance < 1000)
                     <span class="inline-flex items-center rounded-full bg-red-50 px-2.5 py-0.5 text-xs font-medium text-red-800 ring-1 ring-inset ring-red-600/20">
                         Saldo Baixo
                     </span>
@@ -272,11 +277,7 @@
                                     <span class="text-sm font-medium text-neutral-900">
                                         {{ number_format($order->total, 2, ',', '.') }} AOA
                                     </span>
-                                    @if($order->total > 1000)
-                                        <span class="inline-flex items-center rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-medium text-amber-800 ring-1 ring-inset ring-amber-600/20">
-                                            Alto valor
-                                        </span>
-                                    @endif
+
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -290,7 +291,7 @@
                                         </svg>
                                     </a>
 
-                                    @if($order->status === 'in_review')
+                                    @if($order->status === 'in_review' || $order->status === 'new')
                                         <button type="button"
                                                 wire:click="approve({{ $order->id }})"
                                                 wire:confirm="Tem certeza que deseja aprovar este pedido?"

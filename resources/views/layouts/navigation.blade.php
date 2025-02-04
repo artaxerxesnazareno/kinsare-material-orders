@@ -4,11 +4,6 @@
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}" class="text-2xl font-display font-bold text-primary-600 hover:text-primary-700 transition-colors">
-                        {{ config('app.name', 'Kinsare') }}
-                    </a>
-                </div>
 
                 <!-- Links de Navegação -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">

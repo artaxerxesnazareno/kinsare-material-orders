@@ -64,7 +64,9 @@ class Dashboard extends Component
         try {
             $order = Order::findOrFail($orderId);
             $this->orderService->approve($order, Auth::user());
+            $this->group = $this->group->fresh();
             session()->flash('success', 'Pedido aprovado com sucesso!');
+            $this->dispatch('refresh');
         } catch (\Exception $e) {
             session()->flash('error', $e->getMessage());
         }
