@@ -5,7 +5,9 @@ namespace App\Services;
 use App\Models\Group;
 use App\Models\Order;
 use App\Models\User;
+use App\Models\Requester;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Exception;
 
 class GroupService
@@ -20,11 +22,27 @@ class GroupService
             throw new Exception('Apenas administradores podem criar grupos.');
         }
 
-        return Group::create([
-            'name' => $data['name'],
-            'allowed_balance' => $data['balance'],
-            'approver_id' => $user->id
-        ]);
+        DB::beginTransaction();
+        try {
+            // Cria o grupo
+            $group = Group::create([
+                'name' => $data['name'],
+                'allowed_balance' => $data['allowed_balance'],
+                'approver_id' => $data['approver_id']
+            ]);
+
+            // Associa o solicitante ao grupo
+            Requester::create([
+                'user_id' => $data['requester_id'],
+                'group_id' => $group->id
+            ]);
+
+            DB::commit();
+            return $group;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw new \Exception('Erro ao criar grupo: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -59,19 +77,36 @@ class GroupService
     public function listAccessibleGroups(User $user): Collection
     {
         if ($user->isAdmin()) {
-            return Group::with(['approver', 'requesters'])->get();
+            return Group::with([
+                'approver',
+                'requesters',
+                'orders' => function ($query) {
+                    $query->with(['materials', 'requester.user']);
+                }
+            ])->get();
         }
 
         if ($user->isApprover()) {
             return Group::where('approver_id', $user->id)
-                ->with(['approver', 'requesters'])
-                ->get();
+                ->with([
+                    'approver',
+                    'requesters',
+                    'orders' => function ($query) {
+                        $query->with(['materials', 'requester.user']);
+                    }
+                ])->get();
         }
 
         if ($user->isRequester()) {
             return Group::where('id', $user->requester->group_id)
-                ->with(['approver', 'requesters'])
-                ->get();
+                ->with([
+                    'approver',
+                    'requesters',
+                    'orders' => function ($query) use ($user) {
+                        $query->where('requester_id', $user->requester->id)
+                            ->with(['materials', 'requester.user']);
+                    }
+                ])->get();
         }
 
         return collect();
@@ -142,12 +177,67 @@ class GroupService
             throw new Exception('Apenas administradores podem atualizar grupos.');
         }
 
-        $group->update([
-            'name' => $data['name'],
-            'allowed_balance' => $data['balance'],
-            'approver_id' => $user->id
-        ]);
+        DB::beginTransaction();
+        try {
+            // Atualiza o grupo
+            $group->update([
+                'name' => $data['name'],
+                'allowed_balance' => $data['allowed_balance'],
+                'approver_id' => $data['approver_id']
+            ]);
 
-        return $group->fresh();
+            // Atualiza ou cria o relacionamento com o solicitante
+            Requester::updateOrCreate(
+                ['group_id' => $group->id],
+                ['user_id' => $data['requester_id']]
+            );
+
+            DB::commit();
+            return $group;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw new \Exception('Erro ao atualizar grupo: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Atualiza o saldo de um grupo
+     */
+    public function updateBalance(Group $group, float $newBalance, User $user)
+    {
+        if (!$user->isAdmin()) {
+            throw new Exception('Apenas administradores podem atualizar o saldo do grupo.');
+        }
+
+        if ($newBalance < 0) {
+            throw new Exception('O saldo não pode ser negativo.');
+        }
+
+        $group->update(['allowed_balance' => $newBalance]);
+        return $group;
+    }
+
+    /**
+     * Remove um grupo
+     */
+    public function delete(Group $group, User $user)
+    {
+        if (!$user->isAdmin()) {
+            throw new Exception('Apenas administradores podem remover grupos.');
+        }
+
+        DB::beginTransaction();
+        try {
+            // Remove os relacionamentos com solicitantes
+            Requester::where('group_id', $group->id)->delete();
+
+            // Remove o grupo
+            $group->delete();
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw new \Exception('Erro ao remover grupo: ' . $e->getMessage());
+        }
     }
 }

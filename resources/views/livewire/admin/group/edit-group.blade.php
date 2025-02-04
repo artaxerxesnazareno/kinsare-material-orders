@@ -7,10 +7,10 @@
     </div>
 
     <form wire:submit.prevent="save" class="space-y-6">
-        <!-- Nome do Grupo -->
+        <!-- Nome -->
         <div>
             <label for="name" class="block text-sm font-medium text-neutral-700">
-                Nome do Grupo
+                Nome
             </label>
             <div class="mt-1">
                 <input type="text"
@@ -24,24 +24,61 @@
             @enderror
         </div>
 
-        <!-- Saldo -->
+        <!-- Limite -->
         <div>
-            <label for="balance" class="block text-sm font-medium text-neutral-700">
-                Saldo (AOA)
+            <label for="allowed_balance" class="block text-sm font-medium text-neutral-700">
+                Limite
             </label>
-            <div class="mt-1 relative">
-                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <span class="text-neutral-500 sm:text-sm">AOA</span>
-                </div>
+            <div class="mt-1">
                 <input type="number"
-                       id="balance"
-                       wire:model="balance"
+                       id="allowed_balance"
+                       wire:model="allowed_balance"
                        step="0.01"
                        min="0"
-                       class="block w-full pl-12 rounded-lg border-neutral-300 shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm"
-                       placeholder="0,00">
+                       class="block w-full rounded-lg border-neutral-300 shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm"
+                       placeholder="Digite o limite do grupo">
             </div>
-            @error('balance')
+            @error('allowed_balance')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <!-- Aprovador -->
+        <div>
+            <label for="approver_id" class="block text-sm font-medium text-neutral-700">
+                Aprovador
+            </label>
+            <div class="mt-1">
+                <select id="approver_id"
+                        wire:model="approver_id"
+                        class="block w-full rounded-lg border-neutral-300 shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm">
+                    <option value="">Selecione um aprovador</option>
+                    @foreach ($approvers as $approver)
+                        <option value="{{ $approver['id'] }}">{{ $approver['name'] }}</option>
+                    @endforeach
+                </select>
+            </div>
+            @error('approver_id')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <!-- Solicitante -->
+        <div>
+            <label for="requester_id" class="block text-sm font-medium text-neutral-700">
+                Solicitante
+            </label>
+            <div class="mt-1">
+                <select id="requester_id"
+                        wire:model="requester_id"
+                        class="block w-full rounded-lg border-neutral-300 shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm">
+                    <option value="">Selecione um solicitante</option>
+                    @foreach ($requesters as $requester)
+                        <option value="{{ $requester['id'] }}">{{ $requester['name'] }}</option>
+                    @endforeach
+                </select>
+            </div>
+            @error('requester_id')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
             @enderror
         </div>
@@ -73,8 +110,8 @@
                           fill="currentColor"
                           d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
-                <span wire:loading.remove wire:target="save">Atualizar Grupo</span>
-                <span wire:loading wire:target="save">Atualizando...</span>
+                <span wire:loading.remove wire:target="save">Salvar Alterações</span>
+                <span wire:loading wire:target="save">Salvando...</span>
             </button>
         </div>
     </form>
