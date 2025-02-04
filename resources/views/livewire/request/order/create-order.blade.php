@@ -85,14 +85,14 @@
         </div>
 
         <!-- Botões de Ação -->
-        <div class="flex items-center justify-end gap-x-3">
+        <div class="flex items-center justify-end space-x-8">
             <a href="{{ route('orders.index') }}"
-               class="inline-flex items-center gap-x-2 rounded-lg bg-white px-4 py-2.5 text-sm font-semibold text-neutral-700 shadow-sm ring-1 ring-inset ring-neutral-300 hover:bg-neutral-50 transition-all duration-200">
+               class="inline-flex items-center gap-x-2 rounded-lg bg-white px-6 py-3 text-sm font-semibold text-neutral-700 shadow-sm ring-1 ring-inset ring-neutral-300 hover:bg-neutral-50 transition-all duration-200">
                 Cancelar
             </a>
             <button type="submit"
-                    class="rounded-full">
-                Criar Pedido
+            class="inline-flex items-center gap-x-2 rounded-lg bg-white px-6 py-3 text-sm font-semibold text-neutral-700 shadow-sm ring-1 ring-inset ring-neutral-300 hover:bg-neutral-50 transition-all duration-200">
+            Criar Pedido
             </button>
         </div>
     </form>

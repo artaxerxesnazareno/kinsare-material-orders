@@ -93,9 +93,9 @@
         </div>
 
         <!-- Botões -->
-        <div class="flex justify-end gap-x-3">
+        <div class="flex justify-end gap-x-3 space-x-8">
             <a href="{{ route('users.index') }}"
-               class="btn-neutral">
+               class="inline-flex items-center gap-x-2 rounded-lg bg-white px-6 py-3 text-sm font-semibold text-neutral-700 shadow-sm ring-1 ring-inset ring-neutral-300 hover:bg-neutral-50 transition-all duration-200">
                 Cancelar
             </a>
 
@@ -105,7 +105,7 @@
                     wire:target="save">
                 <svg wire:loading
                      wire:target="save"
-                     class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                     class="inline-flex items-center gap-x-2 rounded-lg bg-white px-6 py-3 text-sm font-semibold text-neutral-700 shadow-sm ring-1 ring-inset ring-neutral-300 hover:bg-neutral-50 transition-all duration-200"
                      xmlns="http://www.w3.org/2000/svg"
                      fill="none"
                      viewBox="0 0 24 24">
