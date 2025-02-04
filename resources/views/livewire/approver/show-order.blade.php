@@ -16,7 +16,7 @@
 
             <div class="flex items-center gap-x-3">
                 <a href="{{ route('approver.dashboard') }}"
-                   class="btn-neutral">
+                   class="btn-neutral px-4">
                     <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                     </svg>
@@ -27,7 +27,7 @@
                     <button type="button"
                             wire:click="approve"
                             wire:confirm="Tem certeza que deseja aprovar este pedido?"
-                            class="btn-success">
+                            class="btn-success px-4">
                         <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                         </svg>
@@ -37,7 +37,7 @@
                     <button type="button"
                             wire:click="reject"
                             wire:confirm="Tem certeza que deseja rejeitar este pedido?"
-                            class="btn-danger">
+                            class="btn-danger px-4">
                         <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                         </svg>
@@ -47,7 +47,7 @@
                     <button type="button"
                             wire:click="requestChanges"
                             wire:confirm="Tem certeza que deseja solicitar alterações neste pedido?"
-                            class="btn-warning">
+                            class="btn-warning px-4">
                         <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                         </svg>
