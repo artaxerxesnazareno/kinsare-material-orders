@@ -60,9 +60,17 @@ Route::middleware(['auth'])->group(function () {
     // Rotas para Administradores
     Route::middleware(['admin'])->group(function () {
         // Materiais
-        Route::get('/materiais/criar', [MaterialController::class, 'create'])->name('materials.create');
-        Route::post('/materiais', [MaterialController::class, 'store'])->name('materials.store');
-        Route::get('/materiais/{material}/editar', [MaterialController::class, 'edit'])->name('materials.edit');
+        // Rotas comuns (acessíveis a todos os usuários autenticados)
+        Route::get('/materiais', function () {
+            return view('materials.index');
+        })->name('materials.index');
+        Route::get('/materiais/{material}', [MaterialController::class, 'show'])->name('materials.show');
+        Route::get('/material/criar', function () {
+//            dd('Criar Material');
+            return view('materials.create');
+        })->name('materials.create');
+        Route::post('/materia\is', [MaterialController::class, 'store'])->name('materials.store');
+        Route::get('/materiais/{material}/editar', [MaterialController::class, 'edit'])->name('admin.materials.edit');
         Route::put('/materiais/{material}', [MaterialController::class, 'update'])->name('materials.update');
         Route::delete('/materiais/{material}', [MaterialController::class, 'destroy'])->name('materials.destroy');
         Route::get('/materiais/relatorio', [MaterialController::class, 'report'])->name('materials.report');
@@ -77,9 +85,7 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/grupos/{group}', [GroupController::class, 'destroy'])->name('groups.destroy');
     });
 
-    // Rotas comuns (acessíveis a todos os usuários autenticados)
-    Route::get('/materiais', [MaterialController::class, 'index'])->name('materials.index');
-    Route::get('/materiais/{material}', [MaterialController::class, 'show'])->name('materials.show');
+
 });
 
 require __DIR__.'/auth.php';
