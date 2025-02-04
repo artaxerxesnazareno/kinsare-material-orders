@@ -14,7 +14,7 @@ class Dashboard extends Component
     use WithPagination;
 
     public $search = '';
-    public $status = 'in_review';
+    public $status = '';
     public $perPage = 10;
     public $reason = '';
     public $group;
@@ -34,7 +34,7 @@ class Dashboard extends Component
 
     protected $queryString = [
         'search' => ['except' => ''],
-        'status' => ['except' => 'in_review'],
+        'status' => ['except' => ''],
         'perPage' => ['except' => 10],
     ];
 
