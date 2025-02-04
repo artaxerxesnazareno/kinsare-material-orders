@@ -11,6 +11,23 @@ use Exception;
 class GroupService
 {
     /**
+     * Criar um novo grupo
+     * RNF1: Segurança - Apenas admin pode criar grupos
+     */
+    public function create(array $data, User $user): Group
+    {
+        if (!$user->isAdmin()) {
+            throw new Exception('Apenas administradores podem criar grupos.');
+        }
+
+        return Group::create([
+            'name' => $data['name'],
+            'allowed_balance' => $data['balance'],
+            'approver_id' => $user->id
+        ]);
+    }
+
+    /**
      * Verificar saldo disponível do grupo
      * RF3: O sistema deve verificar o saldo permitido do grupo
      */
@@ -113,5 +130,24 @@ class GroupService
             'remaining_balance' => $this->getCurrentBalance($group),
             'spending_by_requester' => $spendingByRequester
         ];
+    }
+
+    /**
+     * Atualizar um grupo existente
+     * RNF1: Segurança - Apenas admin pode atualizar grupos
+     */
+    public function update(Group $group, array $data, User $user): Group
+    {
+        if (!$user->isAdmin()) {
+            throw new Exception('Apenas administradores podem atualizar grupos.');
+        }
+
+        $group->update([
+            'name' => $data['name'],
+            'allowed_balance' => $data['balance'],
+            'approver_id' => $user->id
+        ]);
+
+        return $group->fresh();
     }
 }
