@@ -9,7 +9,7 @@ Sistema para gerenciamento de pedidos de materiais desenvolvido com Laravel 11 e
 - Livewire 3
 - Laravel Breeze
 - TailwindCSS
-- MySQL/MariaDB
+- SQLite
 - Pest PHP (Testes)
 
 ## 📋 Pré-requisitos
@@ -18,13 +18,13 @@ Sistema para gerenciamento de pedidos de materiais desenvolvido com Laravel 11 e
 - Composer
 - Node.js
 - NPM ou Yarn
-- MySQL/MariaDB
+- SQLite
 
 ## 🔧 Instalação
 
 1. Clone o repositório
 ```bash
-git clone [url-do-repositorio]
+git clone https://github.com/artaxerxesnazareno/kinsare-material-orders.git
 ```
 
 2. Instale as dependências do PHP
